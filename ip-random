@@ -17,5 +17,3 @@ rm /etc/openvpn/openvpn.conf /etc/openvpn/auth.txt
 # Selection aleatoire des fichiers openvpn.conf
 
 cp /usr/share/openvpn/vpn/*/* /etc/openvpn/
-
-exit 0
