@@ -7,7 +7,7 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: ip-random
-# Description: changement de l'adresse ip a chaque demarrage
+# Description: changement de l'adresse ip à chaque démarrage
 ### END INIT INFO
 
 # Suppression des anciens fichiers openvpn
