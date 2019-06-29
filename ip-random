@@ -7,13 +7,13 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: ip-random
-# Description: changement de l'adresse ip à chaque démarrage
+# Description:       ip random at boot
 ### END INIT INFO
 
-# Suppression des anciens fichiers openvpn
+# Delete old files openvpn
 
 rm /etc/openvpn/openvpn.conf /etc/openvpn/auth.txt
 
-# Selection aleatoire des fichiers openvpn.conf
+# Select random vpn of the files openvpn.conf
 
 cp /usr/share/openvpn/vpn/*/* /etc/openvpn/
