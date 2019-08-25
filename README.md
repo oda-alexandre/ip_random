@@ -1,6 +1,5 @@
 # IP RANDOM
 
-
 ## INDEX
 
 - [Introduction](#INTRODUCTION)
@@ -9,32 +8,35 @@
 - [Config](#CONFIG)
 - [License](#LICENSE)
 
-
 ## INTRODUCTION
 
 This repository contains a script that allows of change ip at boot.
-
 
 ## PREREQUISITES
 
 Use [OpenVpn](https://openvpn.net)
 
-
 ## INSTALL
 
-```
-apt update
-apt install --no-install-recommends openvpn
-systemctl restart openvpn
-systemctl enable openvpn
-git clone https://gitlab.com/oda-alexandre/ip_random.git ~/ip_random
-mv -f ~/ip_random/ip-random /etc/init.d/
-chmod +x /etc/init.d/ip-random
-update-rc.d -f ip-random defaults
-rm -rf ~/ip_random
-mkdir /usr/share/openvpn/vpn
-```
+```apt update```
 
+```apt install --no-install-recommends openvpn```
+
+```systemctl restart openvpn```
+
+```systemctl enable openvpn```
+
+```git clone https://gitlab.com/oda-alexandre/ip_random.git ~/ip_random```
+
+```mv -f ~/ip_random/ip-random /etc/init.d/```
+
+```chmod +x /etc/init.d/ip-random```
+
+```update-rc.d -f ip-random defaults```
+
+```rm -rf ~/ip_random```
+
+```mkdir /usr/share/openvpn/vpn```
 
 ## CONFIG
 
@@ -44,16 +46,13 @@ mkdir /usr/share/openvpn/vpn
 
 3 - Add this line for auto autentification in the openvpn.conf files.
 
-```
-auth-user-pass auth.txt
-```
+```auth-user-pass auth.txt```
 
 4 - Add an auth.txt file next to your openvpn.conf files with your username & password.
 
-```
-username
-password
-```
+```username```
+
+```password```
 
 ## LICENSE
 
