@@ -1,0 +1,107 @@
+image: docker:stable
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - staging
+  - deploy
+
+code_quality:
+  stage: test
+  allow_failure: false
+  script:
+    - echo -e '\033[36;1m ******* CODE QUALITY ******** \033[0m'
+    - export SP_VERSION=$(echo "${CI_SERVER_VERSION}" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run --rm
+        --env SOURCE_CODE="${PWD}"
+        --volume ${PWD}:/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:${VERSION:-latest}" /code
+  artifacts:
+    paths: [gl-code-quality-report.json]
+  only:
+    - dev
+
+sast:
+  stage: test
+  allow_failure: false
+  script:
+    - echo -e '\033[36;1m ******* SAST ******** \033[0m'
+    - export SP_VERSION=$(echo "${CI_SERVER_VERSION}" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run --rm
+        --env SAST_CONFIDENCE_LEVEL="${SAST_CONFIDENCE_LEVEL:-3}"
+        --volume ${PWD}:/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/sast:${SP_VERSION}" /app/bin/run /code
+  artifacts:
+    paths: [gl-sast-report.json]
+  only:
+    - dev
+
+license_management:
+  stage: test
+  allow_failure: false
+  script:
+    - echo -e '\033[36;1m ******* LICENSE MANAGEMENT ******** \033[0m'
+    - export LICENSE_MANAGEMENT_VERSION=$(echo "${CI_SERVER_VERSION}" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run --rm
+        --volume ${PWD}:/code
+        "registry.gitlab.com/gitlab-org/security-products/license-management:${LICENSE_MANAGEMENT_VERSION}" analyze /code
+  artifacts:
+    paths: [gl-license-management-report.json]
+  only:
+    - dev
+
+test_app:
+  stage: test
+  allow_failure: false
+  image: debian:latest
+  script:
+    - echo -e '\033[36;1m ******* TEST APP ******** \033[0m'
+    - mkdir /usr/share/wordlists
+    - mv -f name.txt /usr/share/wordlists/
+    - mv -f hostname-random /etc/init.d/
+    - chmod +x /etc/init.d/hostname-random
+    - update-rc.d -f hostname-random defaults
+    - service hostname-random restart
+  only:
+    - dev
+
+open_merge:
+  stage: staging
+  allow_failure: false
+  script:
+    - echo -e '\033[36;1m ******* OPEN MERGE REQUEST ******** \033[0m'
+    - docker run --rm
+        --env CI_PROJECT_ID=${CI_PROJECT_ID}
+        --env CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME}
+        --env CI_DEFAULT_BRANCH=${CI_DEFAULT_BRANCH}
+        --env GITLAB_USER_ID=${GITLAB_USER_ID}
+        --env PRIVATE_TOKEN=${PRIVATE_TOKEN}
+        alexandreoda/gitlab_auto_merge_requests
+        bash auto_merge_requests.sh --open
+  only: 
+    - dev
+
+enable_merge:
+  stage: deploy
+  allow_failure: false
+  script:
+    - echo -e '\033[36;1m ******* ENABLE MERGE WHEN PIPELINE SUCCEEDS ******** \033[0m'
+    - docker run --rm
+        --env CI_PROJECT_ID=${CI_PROJECT_ID}
+        --env CI_MERGE_REQUEST_IID=${CI_MERGE_REQUEST_IID}
+        --env PRIVATE_TOKEN=${PRIVATE_TOKEN}
+        alexandreoda/gitlab_auto_merge_requests
+        bash auto_merge_requests.sh --enable
+  only: 
+    - merge_requests
+
+deploy:
+  stage: deploy
+  script:
+    - echo -e '\033[36;1m ******* DEPLOYMENT FINISHED SUCCESSFULLY ******** \033[0m'
+  only: 
+    - master
