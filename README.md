@@ -18,9 +18,9 @@ Use [OpenVpn](https://openvpn.net)
 
 ## INSTALL
 
-```apt update```
+```apt-get update```
 
-```apt install --no-install-recommends openvpn```
+```apt-get install --no-install-recommends openvpn```
 
 ```systemctl restart openvpn```
 
