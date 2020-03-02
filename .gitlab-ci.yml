@@ -5,6 +5,7 @@ services:
 
 stages:
   - test
+  - date
   - staging
   - deploy
 
@@ -66,6 +67,15 @@ test_app:
     - chmod +x /etc/init.d/hostname-random
     - update-rc.d -f hostname-random defaults
     - service hostname-random restart
+  only:
+    - dev
+
+date:
+  stage: date
+  allow_failure: false
+  script:
+    - echo -e '\033[36;1m ******* DATE ******** \033[0m'
+    - "date=$(date +\"%Y-%m-%d\") && sed -i \"s/^Date: .*/Date: $date/\" README.md"
   only:
     - dev
 

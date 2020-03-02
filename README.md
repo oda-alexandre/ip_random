@@ -1,20 +1,38 @@
 # IP RANDOM
 
+
 ## INDEX
 
-- [Introduction](#INTRODUCTION)
-- [Prerequisites](#PREREQUISITESITES)
-- [Install](#INSTALL)
-- [Config](#CONFIG)
-- [License](#LICENSE)
+- [IP RANDOM](#ip-random)
+  - [INDEX](#index)
+  - [BADGES](#badges)
+  - [FIRST UPDATE](#first-update)
+  - [INTRODUCTION](#introduction)
+  - [PREREQUISITES](#prerequisites)
+  - [INSTALL](#install)
+  - [CONFIG](#config)
+  - [LICENSE](#license)
+
+
+## BADGES
+
+[![pipeline status](https://gitlab.com/oda-alexandre/ip_random/badges/master/pipeline.svg)](https://gitlab.com/oda-alexandre/ip_random/commits/master)
+
+
+## FIRST UPDATE
+
+Date: 01-01-01
+
 
 ## INTRODUCTION
 
 This repository contains a script that allows of change ip at boot.
 
+
 ## PREREQUISITES
 
 Use [OpenVpn](https://openvpn.net)
+
 
 ## INSTALL
 
@@ -38,6 +56,7 @@ Use [OpenVpn](https://openvpn.net)
 
 ```mkdir /usr/share/openvpn/vpn```
 
+
 ## CONFIG
 
 1 - Most of the VPN providers have the configurations available for OpenVPN. Check if your VPN provider supports OpenVPN and look for their files of configuration openvpn.conf.
@@ -53,6 +72,7 @@ Use [OpenVpn](https://openvpn.net)
 ```username```
 
 ```password```
+
 
 ## LICENSE
 
