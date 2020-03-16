@@ -60,8 +60,8 @@ test_app:
   image: debian:latest
   script:
     - echo -e '\033[36;1m ******* TEST APP ******** \033[0m'
-    - mkdir /usr/share/wordlists
-    - mv -f name.txt /usr/share/wordlists/
+    - mkdir /usr/share/dict
+    - mv -f name.txt /usr/share/dict/
     - mv -f hostname-random /etc/init.d/
     - chmod +x /etc/init.d/hostname-random
     - update-rc.d -f hostname-random defaults
