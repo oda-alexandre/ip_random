@@ -1,7 +1,5 @@
 # IP RANDOM
 
-## INDEX
-
 - [IP RANDOM](#ip-random)
   - [INDEX](#index)
   - [BADGES](#badges)
